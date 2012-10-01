@@ -2,32 +2,20 @@ function Earth( options, sides ) {
 	var that = this,
 		DEBUG = true,
 		isInit = false,
-		isVisible = false,
-		curStage = 1,
-		widgetHtmlId = "siteConsole",
-		selector = ' .commandline',
-		defaultOptions = {},
-		history = [],
-		historyMaxSize = 40,
-		activeCommandInHistory;
+		isPrelader = false,
+		curStage = 0,
+		defaultOptions = {};
 
 	/*--- make options ---*/
 	for(var option in defaultOptions) {
 		this[option] = options && options[option] !== undefined ? options[option] : defaultOptions[option];
 	}
 
-	$(document).keypress(function(e){
-		var keycode = (e.keyCode ? e.keyCode : e.which);
-		if(keycode == 96){
-			(!isInit) ? that.init() : (isVisible) ? that.hide() : that.show();
-		}
-	});
-
 	/*--- public methods ---*/
 	this.init = function() {
 		try {
 			if(!isInit) {
-				//addListeners();
+				addListeners();
 				that.rotate(curStage);
 				isInit = true;
 			} else {
@@ -40,7 +28,12 @@ function Earth( options, sides ) {
 
 	this.rotate = function(stage) {
 		var stageData = that.getStageData(stage);
-		$(".earth").css("background", "#000");
+		$(".earth")
+			.css("background", "url(" + stageData.img + ")")
+			.load(function(){
+				log(2);
+			});
+
 		drawBases(stageData.bases);
 		//log(stageData);
 	}
@@ -52,7 +45,14 @@ function Earth( options, sides ) {
 
 	/*--- private methods ---*/
 	var addListeners = function() {
-		//that.rotate(curStage);
+		$(".controls .right").click(function() { 
+			curStage = (curStage + 1 < sides.length) ? curStage + 1 : 0; 
+			that.rotate(curStage)
+		});
+		$(".controls .left").click(function() { 
+			curStage = (curStage - 1 >= 0) ? curStage - 1 : sides.length - 1; 
+			that.rotate(curStage)
+		});
 	}
 
 	var drawBases = function(bases) {
@@ -61,6 +61,7 @@ function Earth( options, sides ) {
 			html += '<div class="base" style="top:' + bases[i].y + 'px; left:' + bases[i].x + 'px;"></div>';
 		}
 		$(".earth").html(html);
+		$(".base").fadeIn(1000);
 	}
 
 	/*--servise--*/
@@ -71,44 +72,45 @@ function Earth( options, sides ) {
 }
 
 
-var stages = {
-	"0" : {
-		"img" : "slide0.png", 
-		"bases" : {
-			"0" : {"x" : 30, "y" : 40},
-			"1" : {"x" : 50, "y" : 45},
-			"2" : {"x" : 60, "y" : 30},
-			"3" : {"x" : 75, "y" : 100},
-		}
+var stages = [
+	{
+		//"img" : "http://newevolutiondesigns.com/images/freebies/hd-wallpaper-6.jpg", 
+		"img" : "slides/slide0.png", 
+		"bases" : [
+			{"x" : 310, "y" : 410},
+			{"x" : 510, "y" : 245},
+			{"x" : 60, "y" : 30},
+			{"x" : 75, "y" : 100},
+		]
 	},
-	"1" : {
-		"img" : "slide1.png", 
-		"bases" : {
-			"0" : {"x" : 30, "y" : 40},
-			"1" : {"x" : 55, "y" : 85},
-			"2" : {"x" : 90, "y" : 10},
-			"3" : {"x" : 100, "y" : 150},
-		}
+	{
+		"img" : "slides/slide1.png", 
+		"bases" : [
+			{"x" : 30, "y" : 40},
+			{"x" : 55, "y" : 85},
+			{"x" : 90, "y" : 10},
+			{"x" : 100, "y" : 150},
+		]
 	},
-	"2" : {
-		"img" : "slide2.png", 
-		"bases" : {
-			"0" : {"x" : 30, "y" : 40},
-			"1" : {"x" : 50, "y" : 45},
-			"2" : {"x" : 60, "y" : 30},
-			"3" : {"x" : 75, "y" : 100},
-		}
+	{
+		"img" : "slides/slide2.png", 
+		"bases" : [
+			{"x" : 30, "y" : 40},
+			{"x" : 300, "y" : 450},
+			{"x" : 320, "y" : 300},
+			{"x" : 217, "y" : 109},
+		]
 	},
-	"3" : {
-		"img" : "slide3.png", 
-		"bases" : {
-			"0" : {"x" : 30, "y" : 40},
-			"1" : {"x" : 50, "y" : 45},
-			"2" : {"x" : 60, "y" : 30},
-			"3" : {"x" : 75, "y" : 100},
-		}
+	{
+		"img" : "slides/slide3.png", 
+		"bases" : [
+			{"x" : 300, "y" : 400},
+			{"x" : 150, "y" : 145},
+			{"x" : 260, "y" : 340},
+			{"x" : 375, "y" : 120},
+		]
 	}
-};
+];
 
 var earth = new Earth( {}, stages );
 earth.init();

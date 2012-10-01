@@ -1,17 +1,27 @@
+body{
+	background: black;
+}
+
 .earth{
-	position: fixed;
+	/*position: fixed;*/
+	margin: 0 auto;
 	width: 784px;
 	height: 784px;
 	}
 
 	.earth .base{
-		position: absolute;
-		width: 4px;
-		height: 4px;
+		position: relative;
+		width: 10px;
+		height: 10px;
 		background: white;
+		cursor:pointer;
+		/*opacity: 0;*/
+		display: none;
 	}
 
 .controls{
-
+	color:white;
+	cursor:pointer;
+	float:left;
 }
 
