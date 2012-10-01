@@ -1,0 +1,17 @@
+.earth{
+	position: fixed;
+	width: 784px;
+	height: 784px;
+	}
+
+	.earth .base{
+		position: absolute;
+		width: 4px;
+		height: 4px;
+		background: white;
+	}
+
+.controls{
+
+}
+
