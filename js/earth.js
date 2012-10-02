@@ -29,11 +29,14 @@ function Earth( options, sides ) {
 	this.rotate = function(stage) {
 		var stageData = that.getStageData(stage);
 		log("start preloader");
+		isPrelader = true;
 		$(".earth").fadeOut(500, function() {
 			asyncLoadImage(stageData.img, function() {
-				$(".earth").css("background", "url(" + stageData.img + ")");
+				$(".earth")
+					.css("background", "url(" + stageData.img + ")")
+					.fadeIn(500);
 				log("stop preloader");
-				$(".earth").fadeIn(500);
+				isPrelader = false
 				drawStage(stageData.bases);
 			});
 		});
@@ -46,11 +49,13 @@ function Earth( options, sides ) {
 
 	/*--- private methods ---*/
 	var addListeners = function() {
-		$(".controls .right").click(function() { 
+		$(".controls .right").click(function() {
+			if(isPrelader) return;
 			curStage = (curStage + 1 < sides.length) ? curStage + 1 : 0; 
 			that.rotate(curStage)
 		});
-		$(".controls .left").click(function() { 
+		$(".controls .left").click(function() {
+			if(isPrelader) return;
 			curStage = (curStage - 1 >= 0) ? curStage - 1 : sides.length - 1; 
 			that.rotate(curStage)
 		});
@@ -78,6 +83,7 @@ function Earth( options, sides ) {
 
 		$("#stage_" + curStage).fadeIn(1000, function() {
 			$("#stage_" + curStage + " .base").click(function() {
+				if(isPrelader) return;
 				log(bases[$(this).data('id')].info);
 			});
 		});
@@ -93,7 +99,6 @@ function Earth( options, sides ) {
 
 var stages = [
 	{
-		// "img" : "http://newevolutiondesigns.com/images/freebies/hd-wallpaper-6.jpg", 
 		"img" : "slides/slide0.png", 
 		"bases" : [
 			{"x" : 310, "y" : 410, 'info': '1234'},
@@ -103,7 +108,8 @@ var stages = [
 		]
 	},
 	{
-		"img" : "slides/slide1.png", 
+		"img" : "http://newevolutiondesigns.com/images/freebies/hd-wallpaper-6.jpg", 
+		//"img" : "slides/slide1.png", 
 		"bases" : [
 			{"x" : 30, "y" : 40, 'info': 'xcvxcvbcv'},
 			{"x" : 55, "y" : 85, 'info': 'nvbvnfg'},
