@@ -28,11 +28,15 @@ function Earth( options, sides ) {
 
 	this.rotate = function(stage) {
 		var stageData = that.getStageData(stage);
+		$(".stage").fadeOut(500);
 		log("start preloader");
-		asyncLoadImage(stageData.img, function() {
-			$(".earth").css("background", "url(" + stageData.img + ")");
-			log("stop preloader");
-			drawBases(stageData.bases);
+		$(".earth").fadeOut(500, function() {
+			asyncLoadImage(stageData.img, function() {
+				$(".earth").css("background", "url(" + stageData.img + ")");
+				log("stop preloader");
+				$(".earth").fadeIn(500);
+				drawStage(stageData.bases);
+			});
 		});
 	}
 
@@ -59,13 +63,24 @@ function Earth( options, sides ) {
 		}).attr('src', url);
 	}
 
-	var drawBases = function(bases) {
-		var html = '';
-		for(i in bases) {
-			html += '<div class="base" style="top:' + bases[i].y + 'px; left:' + bases[i].x + 'px;"></div>';
+	var drawStage = function(bases) {
+		if ($('div').is('#stage_' + curStage)) {
+			$("#stage_" + curStage).fadeIn(1000);
+			return;
 		}
-		$(".earth").html(html);
-		$(".base").fadeIn(1000);
+		// log("adding new stage");
+		var html = '<div class="stage" id="stage_' + curStage + '">';
+		for(i in bases) {
+			html += '<div class="base" data-id="' + i + '" style="top:' + bases[i].y + 'px; left:' + bases[i].x + 'px;"></div>';
+		}
+		html += '</div>';
+		$(".earth").append(html);
+
+		$("#stage_" + curStage).fadeIn(1000, function() {
+			$("#stage_" + curStage + " .base").click(function() {
+				log(bases[$(this).data('id')].info);
+			});
+		});
 	}
 
 	/*--servise--*/
@@ -78,40 +93,40 @@ function Earth( options, sides ) {
 
 var stages = [
 	{
-		"img" : "http://newevolutiondesigns.com/images/freebies/hd-wallpaper-6.jpg", 
-		// "img" : "slides/slide0.png", 
+		// "img" : "http://newevolutiondesigns.com/images/freebies/hd-wallpaper-6.jpg", 
+		"img" : "slides/slide0.png", 
 		"bases" : [
-			{"x" : 310, "y" : 410},
-			{"x" : 510, "y" : 245},
-			{"x" : 60, "y" : 30},
-			{"x" : 75, "y" : 100},
+			{"x" : 310, "y" : 410, 'info': '1234'},
+			{"x" : 510, "y" : 245, 'info': '4321'},
+			{"x" : 60, "y" : 30, 'info': 'qwer'},
+			{"x" : 75, "y" : 100, 'info': 'asdfds'},
 		]
 	},
 	{
 		"img" : "slides/slide1.png", 
 		"bases" : [
-			{"x" : 30, "y" : 40},
-			{"x" : 55, "y" : 85},
-			{"x" : 90, "y" : 10},
-			{"x" : 100, "y" : 150},
+			{"x" : 30, "y" : 40, 'info': 'xcvxcvbcv'},
+			{"x" : 55, "y" : 85, 'info': 'nvbvnfg'},
+			{"x" : 90, "y" : 10, 'info': '12xzcvzxcvczx34'},
+			{"x" : 100, "y" : 150, 'info': 'nbvmghmh'},
 		]
 	},
 	{
 		"img" : "slides/slide2.png", 
 		"bases" : [
-			{"x" : 30, "y" : 40},
-			{"x" : 300, "y" : 450},
-			{"x" : 320, "y" : 300},
-			{"x" : 217, "y" : 109},
+			{"x" : 30, "y" : 40, 'info': 'ncgnhgn'},
+			{"x" : 300, "y" : 450, 'info': 'zdfgvdzfvdv'},
+			{"x" : 320, "y" : 300, 'info': 'nxfn'},
+			{"x" : 217, "y" : 109, 'info': 'dfgszd gdg fthf '},
 		]
 	},
 	{
 		"img" : "slides/slide3.png", 
 		"bases" : [
-			{"x" : 300, "y" : 400},
-			{"x" : 150, "y" : 145},
-			{"x" : 260, "y" : 340},
-			{"x" : 375, "y" : 120},
+			{"x" : 300, "y" : 400, 'info': 'dzxg dgxdgx er'},
+			{"x" : 150, "y" : 145, 'info': 'cfgbtrtrgdg'},
+			{"x" : 260, "y" : 340, 'info': 'gzrgtrhdjdty'},
+			{"x" : 375, "y" : 120, 'info': 'zgzehtyjyuhkluiluirxdgrdfyj'},
 		]
 	}
 ];

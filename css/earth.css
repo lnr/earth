@@ -9,6 +9,10 @@ body{
 	height: 784px;
 	}
 
+	.earth .stage{
+		display: none;
+	}
+
 	.earth .base{
 		position: relative;
 		width: 10px;
@@ -16,7 +20,7 @@ body{
 		background: white;
 		cursor:pointer;
 		/*opacity: 0;*/
-		display: none;
+		
 	}
 
 .controls{
