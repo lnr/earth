@@ -28,14 +28,12 @@ function Earth( options, sides ) {
 
 	this.rotate = function(stage) {
 		var stageData = that.getStageData(stage);
-		$(".earth")
-			.css("background", "url(" + stageData.img + ")")
-			.load(function(){
-				log(2);
-			});
-
-		drawBases(stageData.bases);
-		//log(stageData);
+		log("start preloader");
+		asyncLoadImage(stageData.img, function() {
+			$(".earth").css("background", "url(" + stageData.img + ")");
+			log("stop preloader");
+			drawBases(stageData.bases);
+		});
 	}
 
 	this.getStageData = function(stage) {
@@ -53,6 +51,12 @@ function Earth( options, sides ) {
 			curStage = (curStage - 1 >= 0) ? curStage - 1 : sides.length - 1; 
 			that.rotate(curStage)
 		});
+	}
+
+	var asyncLoadImage = function(url, callback) {
+		$('<img/>').load(function(){
+			callback();
+		}).attr('src', url);
 	}
 
 	var drawBases = function(bases) {
@@ -74,8 +78,8 @@ function Earth( options, sides ) {
 
 var stages = [
 	{
-		//"img" : "http://newevolutiondesigns.com/images/freebies/hd-wallpaper-6.jpg", 
-		"img" : "slides/slide0.png", 
+		"img" : "http://newevolutiondesigns.com/images/freebies/hd-wallpaper-6.jpg", 
+		// "img" : "slides/slide0.png", 
 		"bases" : [
 			{"x" : 310, "y" : 410},
 			{"x" : 510, "y" : 245},
