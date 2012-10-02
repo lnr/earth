@@ -28,7 +28,6 @@ function Earth( options, sides ) {
 
 	this.rotate = function(stage) {
 		var stageData = that.getStageData(stage);
-		$(".stage").fadeOut(500);
 		log("start preloader");
 		$(".earth").fadeOut(500, function() {
 			asyncLoadImage(stageData.img, function() {
@@ -64,6 +63,7 @@ function Earth( options, sides ) {
 	}
 
 	var drawStage = function(bases) {
+		$(".stage").hide();
 		if ($('div').is('#stage_' + curStage)) {
 			$("#stage_" + curStage).fadeIn(1000);
 			return;
