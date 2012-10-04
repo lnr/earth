@@ -30,11 +30,13 @@ function Earth( options, sides ) {
 		var stageData = that.getStageData(stage);
 		log("start preloader");
 		isPrelader = true;
-		$(".earth").fadeOut(500, function() {
-			asyncLoadImage(stageData.img, function() {
-				$(".earth")
+		$(".stage").fadeOut(500);
+		
+		asyncLoadImage(stageData.img, function() {
+			$(".earth").animate( {opacity : 0}, 500, function() {
+				$(this)
 					.css("background", "url(" + stageData.img + ")")
-					.fadeIn(500);
+					.animate({opacity : 1},500);
 				log("stop preloader");
 				isPrelader = false
 				drawStage(stageData.bases);
@@ -108,8 +110,8 @@ var stages = [
 		]
 	},
 	{
-		"img" : "http://newevolutiondesigns.com/images/freebies/hd-wallpaper-6.jpg", 
-		//"img" : "slides/slide1.png", 
+		//"img" : "http://newevolutiondesigns.com/images/freebies/hd-wallpaper-6.jpg", 
+		"img" : "slides/slide1.png", 
 		"bases" : [
 			{"x" : 30, "y" : 40, 'info': 'xcvxcvbcv'},
 			{"x" : 55, "y" : 85, 'info': 'nvbvnfg'},
