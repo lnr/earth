@@ -18,6 +18,12 @@ function Earth( options, sides ) {
 				addListeners();
 				that.rotate(curStage);
 				isInit = true;
+
+				$("#earth-container").offset({'top': ($(window).height() - $("#earth-container").height())/2});
+				$(window).resize(function(){
+					$("#earth-container").offset({'top': ($(window).height() - $("#earth-container").height())/2});
+				});
+
 			} else {
 				log("earth already inited");
 			}
@@ -40,6 +46,10 @@ function Earth( options, sides ) {
 				log("stop preloader");
 				isPrelader = false
 				drawStage(stageData.bases);
+
+				
+
+
 			});
 		});
 	}
@@ -78,8 +88,9 @@ function Earth( options, sides ) {
 		// log("adding new stage");
 		var html = '<div class="stage" id="stage_' + curStage + '">';
 		for(i in bases) {
-			html += '<div class="base" data-id="' + i + '" style="top:' + bases[i].y + 'px; left:' + bases[i].x + 'px;"></div>';
+			html += '<div class="base ' + bases[i].type + '" data-id="' + i + '" style="top:' + bases[i].y + 'px; left:' + bases[i].x + 'px;"></div>';
 		}
+		html += '<div class="arctic"></div>';
 		html += '</div>';
 		$(".earth").append(html);
 
@@ -89,6 +100,10 @@ function Earth( options, sides ) {
 				log(bases[$(this).data('id')].info);
 			});
 		});
+
+
+		//materik
+
 	}
 
 	/*--servise--*/
@@ -101,40 +116,40 @@ function Earth( options, sides ) {
 
 var stages = [
 	{
-		"img" : "slides/slide0.png", 
+		"img" : "slides/southern_hemisphere_down.png", 
 		"bases" : [
-			{"x" : 310, "y" : 410, 'info': '1234'},
-			{"x" : 510, "y" : 245, 'info': '4321'},
-			{"x" : 60, "y" : 30, 'info': 'qwer'},
-			{"x" : 75, "y" : 100, 'info': 'asdfds'},
+			{"type" : "dumb", "x" : 310, "y" : 410, 'info': '1234'},
+			{"type" : "tonnel", "x" : 510, "y" : 245, 'info': '4321'},
+			{"type" : "dumb", "x" : 280, "y" : 30, 'info': 'qwer'},
+			{"type" : "dumb", "x" : 75, "y" : 100, 'info': 'asdfds'},
 		]
 	},
 	{
 		//"img" : "http://newevolutiondesigns.com/images/freebies/hd-wallpaper-6.jpg", 
-		"img" : "slides/slide1.png", 
+		"img" : "slides/southern_hemisphere_down.png", 
 		"bases" : [
-			{"x" : 30, "y" : 40, 'info': 'xcvxcvbcv'},
-			{"x" : 55, "y" : 85, 'info': 'nvbvnfg'},
-			{"x" : 90, "y" : 10, 'info': '12xzcvzxcvczx34'},
-			{"x" : 100, "y" : 150, 'info': 'nbvmghmh'},
+			{"type" : "tonnel", "x" : 300, "y" : 400, 'info': 'xcvxcvbcv'},
+			{"type" : "dumb", "x" : 255, "y" : 85, 'info': 'nvbvnfg'},
+			{"type" : "tonnel", "x" : 90, "y" : 280, 'info': '12xzcvzxcvczx34'},
+			{"type" : "tonnel", "x" : 100, "y" : 150, 'info': 'nbvmghmh'},
 		]
 	},
 	{
-		"img" : "slides/slide2.png", 
+		"img" : "slides/southern_hemisphere_down.png", 
 		"bases" : [
-			{"x" : 30, "y" : 40, 'info': 'ncgnhgn'},
-			{"x" : 300, "y" : 450, 'info': 'zdfgvdzfvdv'},
-			{"x" : 320, "y" : 300, 'info': 'nxfn'},
-			{"x" : 217, "y" : 109, 'info': 'dfgszd gdg fthf '},
+			{"type" : "dumb", "x" : 530, "y" : 240, 'info': 'ncgnhgn'},
+			{"type" : "tonnel", "x" : 300, "y" : 450, 'info': 'zdfgvdzfvdv'},
+			{"type" : "dumb", "x" : 320, "y" : 300, 'info': 'nxfn'},
+			{"type" : "tonnel", "x" : 217, "y" : 109, 'info': 'dfgszd gdg fthf '},
 		]
 	},
 	{
-		"img" : "slides/slide3.png", 
+		"img" : "slides/southern_hemisphere_down.png", 
 		"bases" : [
-			{"x" : 300, "y" : 400, 'info': 'dzxg dgxdgx er'},
-			{"x" : 150, "y" : 145, 'info': 'cfgbtrtrgdg'},
-			{"x" : 260, "y" : 340, 'info': 'gzrgtrhdjdty'},
-			{"x" : 375, "y" : 120, 'info': 'zgzehtyjyuhkluiluirxdgrdfyj'},
+			{"type" : "dumb", "x" : 300, "y" : 400, 'info': 'dzxg dgxdgx er'},
+			{"type" : "tonnel", "x" : 150, "y" : 145, 'info': 'cfgbtrtrgdg'},
+			{"type" : "dumb", "x" : 260, "y" : 340, 'info': 'gzrgtrhdjdty'},
+			{"type" : "tonnel", "x" : 375, "y" : 120, 'info': 'zgzehtyjyuhkluiluirxdgrdfyj'},
 		]
 	}
 ];
