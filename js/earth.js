@@ -4,7 +4,9 @@ function Earth( options, sides ) {
 		isInit = false,
 		isPrelader = false,
 		curStage = 0,
-		defaultOptions = {};
+		defaultOptions = {
+			'actionSpeed' : 300
+		};
 
 	/*--- make options ---*/
 	for(var option in defaultOptions) {
@@ -36,20 +38,16 @@ function Earth( options, sides ) {
 		var stageData = that.getStageData(stage);
 		log("start preloader");
 		isPrelader = true;
-		$(".stage").fadeOut(500);
+		$(".stage").fadeOut(that.actionSpeed);
 		
 		asyncLoadImage(stageData.img, function() {
-			$(".earth").animate( {opacity : 0}, 500, function() {
+			$(".earth").animate( {opacity : 0}, that.actionSpeed, function() {
 				$(this)
 					.css("background", "url(" + stageData.img + ")")
-					.animate({opacity : 1},500);
+					.animate({opacity : 1}, that.actionSpeed);
 				log("stop preloader");
 				isPrelader = false
 				drawStage(stageData.bases);
-
-				
-
-
 			});
 		});
 	}
@@ -61,14 +59,13 @@ function Earth( options, sides ) {
 
 	/*--- private methods ---*/
 	var addListeners = function() {
-		$(".controls .right").click(function() {
+		$("#earth-container .controls div").click(function() {
 			if(isPrelader) return;
-			curStage = (curStage + 1 < sides.length) ? curStage + 1 : 0; 
-			that.rotate(curStage)
-		});
-		$(".controls .left").click(function() {
-			if(isPrelader) return;
-			curStage = (curStage - 1 >= 0) ? curStage - 1 : sides.length - 1; 
+			if($(this).hasClass('left')){
+				curStage = (curStage + 1 < sides.length) ? curStage + 1 : 0; 
+			} else {
+				curStage = (curStage - 1 >= 0) ? curStage - 1 : sides.length - 1; 
+			}
 			that.rotate(curStage)
 		});
 	}
@@ -82,7 +79,7 @@ function Earth( options, sides ) {
 	var drawStage = function(bases) {
 		$(".stage").hide();
 		if ($('div').is('#stage_' + curStage)) {
-			$("#stage_" + curStage).fadeIn(1000);
+			$("#stage_" + curStage).fadeIn( that.actionSpeed * 2 );
 			return;
 		}
 		// log("adding new stage");
@@ -90,11 +87,13 @@ function Earth( options, sides ) {
 		for(i in bases) {
 			html += '<div class="base ' + bases[i].type + '" data-id="' + i + '" style="top:' + bases[i].y + 'px; left:' + bases[i].x + 'px;"></div>';
 		}
+		//materik
 		html += '<div class="arctic"></div>';
+
 		html += '</div>';
 		$(".earth").append(html);
 
-		$("#stage_" + curStage).fadeIn(1000, function() {
+		$("#stage_" + curStage).fadeIn( that.actionSpeed * 2 , function() {
 			$("#stage_" + curStage + " .base").click(function() {
 				if(isPrelader) return;
 				log(bases[$(this).data('id')].info);
@@ -102,7 +101,7 @@ function Earth( options, sides ) {
 		});
 
 
-		//materik
+		
 
 	}
 
@@ -120,16 +119,15 @@ var stages = [
 		"bases" : [
 			{"type" : "dumb", "x" : 310, "y" : 410, 'info': '1234'},
 			{"type" : "tonnel", "x" : 510, "y" : 245, 'info': '4321'},
-			{"type" : "dumb", "x" : 280, "y" : 30, 'info': 'qwer'},
+			{"type" : "dumb", "x" : 280, "y" : 230, 'info': 'qwer'},
 			{"type" : "dumb", "x" : 75, "y" : 100, 'info': 'asdfds'},
 		]
 	},
 	{
-		//"img" : "http://newevolutiondesigns.com/images/freebies/hd-wallpaper-6.jpg", 
 		"img" : "slides/southern_hemisphere_down.png", 
 		"bases" : [
 			{"type" : "tonnel", "x" : 300, "y" : 400, 'info': 'xcvxcvbcv'},
-			{"type" : "dumb", "x" : 255, "y" : 85, 'info': 'nvbvnfg'},
+			{"type" : "dumb", "x" : 255, "y" : 285, 'info': 'nvbvnfg'},
 			{"type" : "tonnel", "x" : 90, "y" : 280, 'info': '12xzcvzxcvczx34'},
 			{"type" : "tonnel", "x" : 100, "y" : 150, 'info': 'nbvmghmh'},
 		]
@@ -154,5 +152,5 @@ var stages = [
 	}
 ];
 
-var earth = new Earth( {}, stages );
+var earth = new Earth( {'actionSpeed' : 350}, stages );
 earth.init();
