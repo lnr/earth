@@ -1,22 +1,18 @@
-function Earth( options, sides ) {
+function Earth( params, sides ) {
 	var that = this,
 		DEBUG = true,
 		isInit = false,
 		isPrelader = false,
 		curStage = 0,
-		defaultOptions = {
+		options = {
 			'actionSpeed' : 300
 		};
-
-	/*--- make options ---*/
-	for(var option in defaultOptions) {
-		this[option] = options && options[option] !== undefined ? options[option] : defaultOptions[option];
-	}
 
 	/*--- public methods ---*/
 	this.init = function() {
 		try {
 			if(!isInit) {
+				options = extend(options, params);
 				addListeners();
 				that.rotate(curStage);
 				isInit = true;
@@ -58,6 +54,13 @@ function Earth( options, sides ) {
 
 
 	/*--- private methods ---*/
+	var extend = function(to, from) {
+		for (var key in from)
+			if (from.hasOwnProperty(key))
+				to[key] = from[key];
+		return to;
+	};
+
 	var addListeners = function() {
 		$("#earth-container .controls div").click(function() {
 			if(isPrelader) return;
