@@ -45,10 +45,10 @@ function Earth( params, sides ) {
 		asyncLoadImage(stageData.img, function() {
 			$(".earth").animate( {opacity : 0}, that.actionSpeed, function() {
 				$(this)
-					.css("background", "url(" + stageData.img + ")")
+					.css("background", "url(" + stageData.img + ")");
 					.animate({opacity : 1}, that.actionSpeed);
 				//log("stop preloader");
-				isPrelader = false
+				isPrelader = false;
 				drawStage(stageData.bases);
 			});
 		});
@@ -64,7 +64,6 @@ function Earth( params, sides ) {
 		$("#earth-container .controls div").click(function() {
 			if(isPrelader) return;
 			var direction = $(this).attr('class');
-			log(direction);
 			switch (direction) {
 				case 'left': 
 					curStage = (curStage - 1 >= 0) ? curStage - 1 : sides[curDegree].length - 1; 
@@ -109,9 +108,23 @@ function Earth( params, sides ) {
 
 		$("#stage_" + curStage).fadeIn( that.actionSpeed * 2 , function() {
 			$("#stage_" + curStage + " .base").click(function() {
+				log(1);
 				if(isPrelader) return;
-				log(bases[$(this).data('id')].info);
+				getPage(bases[$(this).data('id')].url);
+				//log(bases[$(this).data('id')].info);
 			});
+		});
+	}
+
+	var getPage = function(url) {
+		$.ajax({
+			url : url,
+			success : function(data) {
+				log(data);
+			},
+			error : function(){
+				alert('error');
+			}
 		});
 	}
 
@@ -150,37 +163,37 @@ var stages = {
 		{
 			"img" : sidesDest + "1.png", 
 			"bases" : [
-				{"type" : "dumb", "x" : 310, "y" : 410, 'info': '1234'},
-				{"type" : "tonnel", "x" : 510, "y" : 245, 'info': '4321'},
-				{"type" : "dumb", "x" : 280, "y" : 230, 'info': 'qwer'},
-				{"type" : "dumb", "x" : 75, "y" : 100, 'info': 'asdfds'},
+				{"type" : "dumb", "x" : 310, "y" : 410, 'url': '/base1'},
+				{"type" : "tonnel", "x" : 510, "y" : 245, 'url': '/base1'},
+				{"type" : "dumb", "x" : 280, "y" : 230, 'url': '/base1'},
+				{"type" : "dumb", "x" : 75, "y" : 100, 'url': '/base1'},
 			]
 		},
 		{
 			"img" : sidesDest + "2.png", 
 			"bases" : [
-				{"type" : "tonnel", "x" : 300, "y" : 400, 'info': 'xcvxcvbcv'},
-				{"type" : "dumb", "x" : 255, "y" : 285, 'info': 'nvbvnfg'},
-				{"type" : "tonnel", "x" : 90, "y" : 280, 'info': '12xzcvzxcvczx34'},
-				{"type" : "tonnel", "x" : 100, "y" : 150, 'info': 'nbvmghmh'},
+				{"type" : "tonnel", "x" : 300, "y" : 400, 'url': '/base1'},
+				{"type" : "dumb", "x" : 255, "y" : 285, 'url': '/base1'},
+				{"type" : "tonnel", "x" : 90, "y" : 280, 'url': '/base1'},
+				{"type" : "tonnel", "x" : 100, "y" : 150, 'url': '/base1'},
 			]
 		},
 		{
 			"img" : sidesDest + "3.png", 
 			"bases" : [
-				{"type" : "dumb", "x" : 530, "y" : 240, 'info': 'ncgnhgn'},
-				{"type" : "tonnel", "x" : 300, "y" : 450, 'info': 'zdfgvdzfvdv'},
-				{"type" : "dumb", "x" : 320, "y" : 300, 'info': 'nxfn'},
-				{"type" : "tonnel", "x" : 217, "y" : 109, 'info': 'dfgszd gdg fthf '},
+				{"type" : "dumb", "x" : 530, "y" : 240, 'url': '/base1'},
+				{"type" : "tonnel", "x" : 300, "y" : 450, 'url': '/base1'},
+				{"type" : "dumb", "x" : 320, "y" : 300, 'url': '/base1'},
+				{"type" : "tonnel", "x" : 217, "y" : 109, 'url': '/base1'},
 			]
 		},
 		{
 			"img" : sidesDest + "4.png", 
 			"bases" : [
-				{"type" : "dumb", "x" : 300, "y" : 400, 'info': 'dzxg dgxdgx er'},
-				{"type" : "tonnel", "x" : 150, "y" : 145, 'info': 'cfgbtrtrgdg'},
-				{"type" : "dumb", "x" : 260, "y" : 340, 'info': 'gzrgtrhdjdty'},
-				{"type" : "tonnel", "x" : 375, "y" : 120, 'info': 'zgzehtyjyuhkluiluirxdgrdfyj'},
+				{"type" : "dumb", "x" : 300, "y" : 400, 'url': '/base1'},
+				{"type" : "tonnel", "x" : 150, "y" : 145, 'url': '/base1'},
+				{"type" : "dumb", "x" : 260, "y" : 340, 'url': '/base1'},
+				{"type" : "tonnel", "x" : 375, "y" : 120, 'url': '/base1'},
 			]
 		}
 	],
